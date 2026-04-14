@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Saad Eddine Elouafi – Software Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --bg2: #111111;
+      --bg3: #181818;
+      --accent: #00e5a0;
+      --accent2: #00b07a;
+      --text: #f0f0f0;
+      --muted: #888;
+      --border: rgba(255,255,255,0.07);
+      --card: #131313;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent2); border-radius: 2px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.25rem 4rem;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 1.1rem;
+      color: var(--accent);
+      letter-spacing: -0.5px;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: 12px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 8rem 4rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%);
+    }
+    .hero-glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(0,229,160,0.07) 0%, transparent 70%);
+      top: -100px; right: -100px;
+      pointer-events: none;
+    }
+    .hero-content { position: relative; max-width: 800px; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,229,160,0.08);
+      border: 1px solid rgba(0,229,160,0.2);
+      color: var(--accent); font-size: 11px;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 5px 14px; border-radius: 2px;
+      margin-bottom: 1.5rem;
+    }
+    .hero-tag::before {
+      content: ''; width: 6px; height: 6px;
+      background: var(--accent); border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+    }
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -2px;
+      color: #fff;
+      margin-bottom: 1.5rem;
+    }
+    h1 span { color: var(--accent); }
+    .hero-desc {
+      font-size: 15px; color: var(--muted); max-width: 520px;
+      line-height: 1.8; margin-bottom: 2.5rem;
+    }
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent); color: #000;
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: 13px; letter-spacing: 0.05em;
+      padding: 12px 28px; border-radius: 2px;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: #00ffb0; transform: translateY(-1px); }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; color: var(--text);
+      font-family: 'Syne', sans-serif; font-weight: 600;
+      font-size: 13px; letter-spacing: 0.05em;
+      padding: 12px 28px; border-radius: 2px;
+      text-decoration: none; border: 1px solid var(--border);
+      cursor: pointer; transition: border-color 0.2s, color 0.2s, transform 0.15s;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+    .hero-stats {
+      position: absolute; right: 4rem; bottom: 4rem;
+      display: flex; gap: 3rem;
+    }
+    .stat { text-align: right; }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.5rem; font-weight: 800;
+      color: var(--accent); line-height: 1;
+    }
+    .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 4rem; }
+    .section-label {
+      font-size: 11px; color: var(--accent);
+      letter-spacing: 0.2em; text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-label::after {
+      content: ''; flex: 1; max-width: 40px;
+      height: 1px; background: var(--accent); opacity: 0.4;
+    }
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800; letter-spacing: -1px;
+      color: #fff; margin-bottom: 3rem;
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--bg2); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .about-text p { color: var(--muted); line-height: 1.9; margin-bottom: 1rem; font-size: 14px; }
+    .about-info { display: flex; flex-direction: column; gap: 1rem; }
+    .info-row {
+      display: flex; justify-content: space-between;
+      border-bottom: 1px solid var(--border); padding-bottom: 0.75rem;
+    }
+    .info-key { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; }
+    .info-val { color: var(--text); font-size: 13px; }
+    .info-val a { color: var(--accent); text-decoration: none; }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--bg); }
+    .skills-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+    .skill-group {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px; padding: 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .skill-group:hover { border-color: rgba(0,229,160,0.25); }
+    .skill-group-title {
+      font-family: 'Syne', sans-serif; font-size: 13px;
+      font-weight: 700; color: var(--accent);
+      letter-spacing: 0.05em; margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .skill-tag {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--muted); font-size: 12px;
+      padding: 4px 10px; border-radius: 2px;
+      transition: all 0.2s;
+    }
+    .skill-tag:hover { background: rgba(0,229,160,0.08); border-color: rgba(0,229,160,0.3); color: var(--accent); }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: var(--bg2); }
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline::before {
+      content: ''; position: absolute; left: 0; top: 6px; bottom: 0;
+      width: 1px; background: var(--border);
+    }
+    .timeline-item { position: relative; margin-bottom: 3rem; }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -2rem;
+      top: 6px; width: 8px; height: 8px;
+      background: var(--accent); border-radius: 50%;
+      box-shadow: 0 0 0 3px rgba(0,229,160,0.15);
+    }
+    .timeline-item.current::before { animation: pulse 2s infinite; }
+    .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem; }
+    .exp-title { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; color: #fff; }
+    .exp-company { color: var(--accent); font-size: 13px; margin-bottom: 0.25rem; }
+    .exp-date {
+      font-size: 11px; color: var(--muted);
+      background: var(--card); border: 1px solid var(--border);
+      padding: 3px 10px; border-radius: 2px; white-space: nowrap;
+    }
+    .exp-current { color: var(--accent); border-color: rgba(0,229,160,0.3); }
+    .exp-desc { color: var(--muted); font-size: 13px; margin: 0.75rem 0; line-height: 1.8; }
+    .exp-tech { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.75rem; }
+    .tech-badge {
+      font-size: 11px; color: rgba(0,229,160,0.7);
+      background: rgba(0,229,160,0.06);
+      border: 1px solid rgba(0,229,160,0.15);
+      padding: 2px 8px; border-radius: 2px;
+    }
+
+    /* ── PROJECTS (EXPERIENCE AS PROJECTS) ── */
+    #projects { background: var(--bg); }
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
+    .project-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 4px; padding: 1.75rem;
+      transition: border-color 0.2s, transform 0.2s;
+      cursor: default;
+    }
+    .project-card:hover { border-color: rgba(0,229,160,0.3); transform: translateY(-3px); }
+    .project-num {
+      font-family: 'Syne', sans-serif; font-size: 2.5rem;
+      font-weight: 800; color: rgba(0,229,160,0.1);
+      line-height: 1; margin-bottom: 0.5rem;
+    }
+    .project-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+    .project-org { font-size: 12px; color: var(--accent); margin-bottom: 0.75rem; }
+    .project-desc { color: var(--muted); font-size: 13px; line-height: 1.8; margin-bottom: 1rem; }
+    .project-stack { display: flex; flex-wrap: wrap; gap: 5px; }
+    .stack-item { font-size: 11px; color: var(--muted); background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 2px 8px; border-radius: 2px; }
+
+    /* ── EDUCATION ── */
+    #education { background: var(--bg2); }
+    .edu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .edu-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 4px; padding: 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .edu-card:hover { border-color: rgba(0,229,160,0.25); }
+    .edu-year { font-size: 11px; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+    .edu-degree { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 0.5rem; line-height: 1.3; }
+    .edu-school { font-size: 12px; color: var(--muted); }
+    .edu-loc { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 4px; }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--bg); text-align: center; }
+    .contact-inner { max-width: 600px; margin: 0 auto; }
+    .contact-inner h2 { margin-bottom: 1rem; }
+    .contact-sub { color: var(--muted); margin-bottom: 2.5rem; font-size: 14px; }
+    .contact-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .contact-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid var(--border); color: var(--muted);
+      padding: 10px 20px; border-radius: 2px; text-decoration: none;
+      font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase;
+      transition: all 0.2s;
+    }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+    .contact-email {
+      font-family: 'Syne', sans-serif; font-size: clamp(1.5rem, 4vw, 2.5rem);
+      font-weight: 800; color: var(--accent);
+      text-decoration: none; display: block;
+      transition: opacity 0.2s;
+    }
+    .contact-email:hover { opacity: 0.7; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 2rem 4rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted); font-size: 12px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.5rem; }
+      #hero, section { padding: 5rem 1.5rem 4rem; }
+      #hero { padding-top: 7rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .hero-stats { position: static; margin-top: 3rem; justify-content: flex-start; }
+      h1 { letter-spacing: -1px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">SE.</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Available for freelance opportunities</div>
+    <h1>Saad Eddine<br><span>Elouafi</span></h1>
+    <p class="hero-desc">
+      Software Engineer specializing in full-stack development and microservices architecture.
+      Building scalable, cloud-native solutions with Java, Spring Boot, Angular & Docker.
+    </p>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn-primary">Get in touch →</a>
+      <a href="#experience" class="btn-outline">View experience</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">3+</div>
+      <div class="stat-label">Years Exp</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">4</div>
+      <div class="stat-label">Projects</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">15+</div>
+      <div class="stat-label">Technologies</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">01 / About</div>
+  <h2>Who I am</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm a Software Engineer based in Morocco, graduated as an <em>Ingénieur en Informatique et Réseaux</em> from EMSI Rabat. I specialize in building robust backend systems and modern web applications.</p>
+      <p>My stack revolves around Java/Spring Boot microservices on the backend, Angular on the frontend, and Docker/Kubernetes for containerization and deployment. I enjoy architecting distributed systems that are scalable, maintainable, and well-tested.</p>
+      <p>Currently working at NARSA (Agence Nationale de la Sécurité Routière), contributing to mission-critical software for road safety in Morocco.</p>
+    </div>
+    <div class="about-info">
+      <div class="info-row">
+        <span class="info-key">Location</span>
+        <span class="info-val">Rabat, Maroc</span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">Status</span>
+        <span class="info-val" style="color:var(--accent);">● Available </span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">Role</span>
+        <span class="info-val">Software Engineer</span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">Education</span>
+        <span class="info-val">Ingénieur – EMSI Rabat</span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">LinkedIn</span>
+        <span class="info-val"><a href="https://linkedin.com/in/saad-eddine-elouafi" target="_blank">saad-eddine-elouafi ↗</a></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">02 / Skills</div>
+  <h2>Tech stack</h2>
+  <div class="skills-groups">
+    <div class="skill-group">
+      <div class="skill-group-title">Back-end</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Java / JEE</span>
+        <span class="skill-tag">Spring Boot</span>
+        <span class="skill-tag">Spring Cloud</span>
+        <span class="skill-tag">Spring Security</span>
+        <span class="skill-tag">Eureka</span>
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">Django</span>
+        <span class="skill-tag">REST APIs</span>
+        <span class="skill-tag">Microservices</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Front-end</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Angular</span>
+        <span class="skill-tag">Vue.js</span>
+        <span class="skill-tag">TypeScript</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">Bootstrap</span>
+        <span class="skill-tag">Tailwind CSS</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">DevOps & Cloud</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Docker</span>
+        <span class="skill-tag">Kubernetes</span>
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">GitLab CI/CD</span>
+        <span class="skill-tag">Jenkins</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Databases</div>
+      <div class="skill-tags">
+        <span class="skill-tag">PostgreSQL</span>
+        <span class="skill-tag">MySQL</span>
+        <span class="skill-tag">MS SQL Server</span>
+        <span class="skill-tag">Oracle</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Testing & Tools</div>
+      <div class="skill-tags">
+        <span class="skill-tag">JUnit</span>
+        <span class="skill-tag">Postman</span>
+        <span class="skill-tag">Jira</span>
+        <span class="skill-tag">Odoo</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Modelling</div>
+      <div class="skill-tags">
+        <span class="skill-tag">UML</span>
+        <span class="skill-tag">Design Patterns</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">03 / Experience</div>
+  <h2>Work history</h2>
+  <div class="timeline">
+
+    <div class="timeline-item current">
+      <div class="exp-header">
+        <div>
+          <div class="exp-title">Software Engineer</div>
+          <div class="exp-company">NARSA — Agence Nationale de la Sécurité Routière</div>
+        </div>
+        <span class="exp-date exp-current">● Dec 2025 – Present</span>
+      </div>
+      <p class="exp-desc">Contributing to the development and maintenance of road safety management systems for Morocco's national road safety agency.</p>
+      <div class="exp-tech">
+        <span class="tech-badge">Java</span>
+        <span class="tech-badge">Spring Boot</span>
+        <span class="tech-badge">Django</span>
+        <span class="tech-badge">Docker</span>
+        <span class="tech-badge">GitLab</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="exp-header">
+        <div>
+          <div class="exp-title">Software Engineer Intern (PFE)</div>
+          <div class="exp-company">AVL Maroc</div>
+        </div>
+        <span class="exp-date">Mar 2024 – Sep 2024 · Maroc</span>
+      </div>
+      <p class="exp-desc">Final year project: designed and developed a full-stack web solution for HR and resource management processes. Built backend microservices, configured inter-service communication, developed RESTful APIs, and wrote unit tests with JUnit.</p>
+      <div class="exp-tech">
+        <span class="tech-badge">Spring Boot</span>
+        <span class="tech-badge">Spring Cloud</span>
+        <span class="tech-badge">Spring Security</span>
+        <span class="tech-badge">Java 17</span>
+        <span class="tech-badge">Microservices</span>
+        <span class="tech-badge">Angular 16</span>
+        <span class="tech-badge">MySQL</span>
+        <span class="tech-badge">Docker</span>
+        <span class="tech-badge">JUnit</span>
+        <span class="tech-badge">GitLab</span>
+        <span class="tech-badge">Jira</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="exp-header">
+        <div>
+          <div class="exp-title">Full Stack Engineer Intern</div>
+          <div class="exp-company">Novec</div>
+        </div>
+        <span class="exp-date">Jul 2023 – Sep 2023 · Maroc</span>
+      </div>
+      <p class="exp-desc">Developed a monolithic web application for multi-stakeholder governance in dam management, covering access control and operational workflows.</p>
+      <div class="exp-tech">
+        <span class="tech-badge">Spring Boot</span>
+        <span class="tech-badge">Spring Security</span>
+        <span class="tech-badge">Java 17</span>
+        <span class="tech-badge">Web Services</span>
+        <span class="tech-badge">Angular 16</span>
+        <span class="tech-badge">SQL Server</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="exp-header">
+        <div>
+          <div class="exp-title">Full Stack Engineer Intern</div>
+          <div class="exp-company">École des Sciences de l'Information</div>
+        </div>
+        <span class="exp-date">Jul 2022 – Aug 2022 · Maroc</span>
+      </div>
+      <p class="exp-desc">Implemented a web application for managing continuous training programs, integrating with the Odoo ERP ecosystem.</p>
+      <div class="exp-tech">
+        <span class="tech-badge">Python</span>
+        <span class="tech-badge">Odoo</span>
+        <span class="tech-badge">PostgreSQL</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">04 / Projects</div>
+  <h2>Featured work</h2>
+  <div class="projects-grid">
+
+    <div class="project-card">
+      <div class="project-num">01</div>
+      <div class="project-title">HR & Resource Management Platform</div>
+      <div class="project-org">AVL Maroc · 2024</div>
+      <p class="project-desc">Full-stack web solution handling employment processes, human resources, and material resource management. Built on a microservices architecture with secure inter-service communication.</p>
+      <div class="project-stack">
+        <span class="stack-item">Spring Boot</span>
+        <span class="stack-item">Microservices</span>
+        <span class="stack-item">Angular 16</span>
+        <span class="stack-item">MySQL</span>
+        <span class="stack-item">Docker</span>
+        <span class="stack-item">JUnit</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">02</div>
+      <div class="project-title">Dam Governance Management App</div>
+      <div class="project-org">Novec · 2023</div>
+      <p class="project-desc">Monolithic web application enabling multi-actor governance for dam management. Covers operational oversight, role-based access, and data reporting for infrastructure stakeholders.</p>
+      <div class="project-stack">
+        <span class="stack-item">Spring Boot</span>
+        <span class="stack-item">Spring Security</span>
+        <span class="stack-item">Angular 16</span>
+        <span class="stack-item">SQL Server</span>
+        <span class="stack-item">Java 17</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">03</div>
+      <div class="project-title">Continuous Training Management</div>
+      <div class="project-org">École des Sciences de l'Information · 2022</div>
+      <p class="project-desc">Web platform to manage and track continuous training programs, built on the Odoo ERP framework with custom Python modules and PostgreSQL backend.</p>
+      <div class="project-stack">
+        <span class="stack-item">Python</span>
+        <span class="stack-item">Odoo</span>
+        <span class="stack-item">PostgreSQL</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">04</div>
+      <div class="project-title">Road Safety Systems</div>
+      <div class="project-org">NARSA · 2025–Present</div>
+      <p class="project-desc">Ongoing contribution to mission-critical software for Morocco's road safety agency, working with a modern backend stack and containerized deployments.</p>
+      <div class="project-stack">
+        <span class="stack-item">Java</span>
+        <span class="stack-item">Spring Boot</span>
+        <span class="stack-item">Django</span>
+        <span class="stack-item">Docker</span>
+        <span class="stack-item">GitLab</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-label">05 / Education</div>
+  <h2>Academic background</h2>
+  <div class="edu-grid">
+
+    <div class="edu-card">
+      <div class="edu-year">2021 – 2024</div>
+      <div class="edu-degree">Ingénieur en Informatique et Réseaux — Option MIAGE</div>
+      <div class="edu-school">École Marocaine des Sciences de l'Ingénieur (EMSI)</div>
+      <div class="edu-loc">Rabat, Maroc</div>
+    </div>
+
+    <div class="edu-card">
+      <div class="edu-year">2018 – 2021</div>
+      <div class="edu-degree">Technicien Spécialisé en Développement Informatique</div>
+      <div class="edu-school">ISTA NTIC Hay Riad</div>
+      <div class="edu-loc">Rabat, Maroc</div>
+    </div>
+
+    <div class="edu-card">
+      <div class="edu-year">2017 – 2018</div>
+      <div class="edu-degree">Baccalauréat Sciences Physique et Chimie</div>
+      <div class="edu-school">Lycée Ibn Taymiya</div>
+      <div class="edu-loc">Tamesna, Maroc</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-label" style="justify-content:center;">06 / Contact</div>
+    <h2>Let's work together</h2>
+    <p class="contact-sub">Open to full-time roles, freelance projects, and interesting collaborations. Drop me a message!</p>
+    <div class="contact-links">
+      <a href="https://linkedin.com/in/saad-eddine-elouafi" target="_blank" class="contact-link">LinkedIn ↗</a>
+      <a href="https://github.com" target="_blank" class="contact-link">GitHub ↗</a>
+    </div>
+    <a href="mailto:saad.elouafi@email.com" class="contact-email">saad.elouafi@email.com</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Saad Eddine Elouafi — Built with precision &amp; care.</p>
+</footer>
+
+<script>
+  // Smooth reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.skill-group, .timeline-item, .project-card, .edu-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
